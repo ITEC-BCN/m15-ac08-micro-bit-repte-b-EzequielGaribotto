@@ -1,22 +1,16 @@
-input.onButtonPressed(Button.A, function () {
+input.onButtonPressed(Button.A, function on_button_pressed_a() {
     music.play(music.stringPlayable("C5 B A G F E D C ", tempo), music.PlaybackMode.UntilDone)
 })
-input.onButtonPressed(Button.B, function () {
-    music.play(music.stringPlayable("C5 - A C5 - A E B ", tempo), music.PlaybackMode.UntilDone)
-    while (true) {
-        setTempo()
-    }
+input.onButtonPressed(Button.AB, function on_button_pressed_ab() {
+    music.stopMelody(MelodyStopOptions.Foreground)
+    music._playDefaultBackground(music.builtInPlayableMelody(Melodies.Funeral), music.PlaybackMode.InBackground)
 })
-function setTempo () {
-    control.waitForEvent(input.compassHeading(), 1)
-    tempo += 1
-}
+input.onButtonPressed(Button.B, function on_button_pressed_b() {
+    music.play(music.stringPlayable("C5 - A C5 - A E B ", tempo), music.PlaybackMode.UntilDone)
+})
 let tempo = 0
 tempo = 120
-let direccion_brujula = input.compassHeading()
-basic.forever(function () {
-    led.plotBarGraph(
-    input.compassHeading(),
-    360
-    )
+basic.forever(function on_forever() {
+    led.plotBarGraph(input.compassHeading(), 360)
+    music.setTempo(input.compassHeading())
 })
